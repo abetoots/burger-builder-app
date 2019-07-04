@@ -1,5 +1,5 @@
 import React from 'react';
-import './Burger.scss';
+import classes from './Burger.module.scss';
 import BurgerIngredient from './BurgerIngredient/BurgerIngredient';
 const burger = (props) => {
     //Basically, maps our object(props.ingredients) into an array of ingredients
@@ -35,7 +35,7 @@ const burger = (props) => {
         transformedIngredients = <p>Please start adding ingredients!</p>;
     }
     return (
-        <div className="Burger">
+        <div className={classes.Burger}>
             <BurgerIngredient type="bread-top" />
             {transformedIngredients}
             <BurgerIngredient type="bread-bottom" />
