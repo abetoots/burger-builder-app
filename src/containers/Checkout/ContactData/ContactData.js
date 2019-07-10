@@ -6,7 +6,7 @@ import axios from '../../../axios-orders';
 import { connect } from 'react-redux';
 import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler'
 //redux
-import actions from '../../../store/actions/index';
+import * as actions from '../../../store/actions/index';
 //Components
 import Button from '../../../components/UI/Button/Button';
 import Spinner from '../../../components/UI/Spinner/Spinner';
