@@ -11,3 +11,9 @@ export {
     checkoutInit,
     fetchOrders
 } from './order';
+
+export {
+    authenticateUser,
+    logout,
+    setAuthRedirectPath
+} from './auth';
