@@ -49,12 +49,14 @@ class Auth extends Component {
         }
     }
 
+    //Toggle between signup or login
     toggleAuthModeHandler = () => {
         this.setState(prevState => {
             return { isSignUp: !prevState.isSignUp };
         })
     }
 
+    //our own validity check, used whenever input changes in inputChangedHandler
     checkValidity = (value, rules) => {
         let isValid = true;
         // console.log(isValid);
