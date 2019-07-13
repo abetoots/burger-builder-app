@@ -24,6 +24,9 @@ export const authenticateFailed = err => {
 }
 
 export const logout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('expirationDate');
+    localStorage.removeItem('userId');
     return {
         type: actionTypes.AUTHENTICATE_LOGOUT
     }
@@ -37,13 +40,10 @@ export const setAuthRedirectPath = path => {
 }
 
 export const checkAuthTimeout = expiryData => {
-    expiryData *= 1000;
-    const expirationDate = new Date(new Date().getTime() + expiryData);
-    console.log(expirationDate);
     return dispatch => {
         setTimeout(() => {
             dispatch(logout());
-        }, expiryData)
+        }, expiryData * 1000)
     }
 }
 
@@ -69,6 +69,11 @@ export const authenticateUser = (email, password, isSignup) => {
         axios.post(url, authData)
             .then(response => {
                 console.log(response);
+                const expiryData = response.data.expiresIn * 1000;
+                const expirationDate = new Date(new Date().getTime() + expiryData);
+                localStorage.setItem('token', response.data.idToken);
+                localStorage.setItem('expirationDate', expirationDate);
+                localStorage.setItem('userId', response.data.localId);
                 dispatch(authenticateSuccess(response.data.idToken, response.data.localId));
                 dispatch(checkAuthTimeout(response.data.expiresIn));
             })
@@ -91,5 +96,26 @@ export const authenticateUser = (email, password, isSignup) => {
         //     .catch(err => {
         //         console.log(err);
         //     })
+    }
+}
+
+export const checkAuthentication = () => {
+    return dispatch => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            //although logically, we can just return here
+            dispatch(logout());
+        } else {
+            const expirationDate = new Date(localStorage.getItem('expirationDate'));
+            //check if we're already past the expiry date
+            if (expirationDate < new Date()) {
+                dispatch(logout());
+            }
+            const userId = localStorage.getItem('userId');
+            dispatch(authenticateSuccess(token, userId));
+            //remaining seconds actually, converted to ms since checkAuthTimeout multiplies the param by 1000
+            const remainingTime = new Date((expirationDate.getSeconds - new Date().getSeconds) / 1000);
+            dispatch(checkAuthTimeout(remainingTime));
+        }
     }
 }
