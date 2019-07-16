@@ -86,7 +86,7 @@ export class BurgerBuilder extends Component {
         }
 
         let modalChild = null;
-        //Switch from <p> / Spinner / the Burger&Build Controls
+        //Switch from <p> or Spinner or the Burger&Build Controls
         //the <p> is for error handling
         let burger = this.props.error ? <p style={{ textAlign: "center" }}>Ingredients can't be loaded!</p> : <Spinner />;
         if (this.props.ings) {
