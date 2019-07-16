@@ -11,7 +11,7 @@ import * as actions from '../../store/actions/index';
 import { connect } from 'react-redux';
 //Utility
 import { updateObject, checkValidity } from '../../utility/utility';
-class Auth extends Component {
+export class Auth extends Component {
     state = {
         controls: {
             email: {
