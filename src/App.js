@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import asyncComponent from './hoc/asyncComponent/asyncComponent';
 import Layout from './containers/Layout/Layout';
 import BurgerBuilder from './containers/BurgerBuilder/BurgerBuilder';
@@ -21,9 +21,13 @@ const asyncAuth = asyncComponent(() => {
   return import('./containers/Auth/Auth');
 });
 
-class App extends Component {
-  render() {
+export class App extends Component {
 
+  componentDidMount() {
+    this.props.initCheckAuthentication();
+  }
+
+  render() {
     let route = (
       <Switch>
         <Route path="/auth" exact component={Auth} />
@@ -65,4 +69,4 @@ const mapDispatchToProps = dispatch => {
     initCheckAuthentication: () => dispatch(actions.checkAuthentication())
   }
 }
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
+export default connect(mapStateToProps, mapDispatchToProps)(App);
