@@ -104,17 +104,19 @@ export const checkAuthentication = () => {
         const token = localStorage.getItem('token');
         if (!token) {
             //although logically, we can just return here
+            console.log('no token');
             dispatch(logout());
         } else {
             const expirationDate = new Date(localStorage.getItem('expirationDate'));
             //check if we're already past the expiry date
             if (expirationDate < new Date()) {
+                console.log('expired');
                 dispatch(logout());
             }
             const userId = localStorage.getItem('userId');
             dispatch(authenticateSuccess(token, userId));
             //remaining seconds actually, converted to ms since checkAuthTimeout multiplies the param by 1000
-            const remainingTime = new Date((expirationDate.getSeconds - new Date().getSeconds) / 1000);
+            const remainingTime = (expirationDate.getTime() - new Date().getTime()) / 1000;
             dispatch(checkAuthTimeout(remainingTime));
         }
     }
