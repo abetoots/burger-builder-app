@@ -15,7 +15,7 @@ import authReducer from './store/reducers/auth';
 //thunk
 import thunk from 'redux-thunk';
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({ trace: true, traceLimit: 25 }) || compose;
 
 const rootReducer = combineReducers({
     burger: burgerReducer,
@@ -26,6 +26,7 @@ const rootReducer = combineReducers({
 const store = createStore(rootReducer, composeEnhancers(
     applyMiddleware(thunk)
 ));
+
 
 const app = (
     <Provider store={store}>
