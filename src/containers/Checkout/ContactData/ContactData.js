@@ -107,9 +107,10 @@ class ContactData extends Component {
             formData[formElementIdentifier] = this.state.orderForm[formElementIdentifier].value
         }
         const order = {
-            ingredients: this.props.ingredients,
-            price: this.props.price,
-            orderData: formData
+            ingredients: this.props.ings,
+            price: this.props.price.toFixed(2),
+            orderData: formData,
+            userId: this.props.userId
         }
         this.props.onPurchaseBurger(order, this.props.token);
     }
@@ -118,9 +119,9 @@ class ContactData extends Component {
     inputChangedHandler = (event, inputIdentifier) => {
 
         //deeply clone each key's object
-        const updatedFormElement = updateObject(this.state.order[inputIdentifier], {
+        const updatedFormElement = updateObject(this.state.orderForm[inputIdentifier], {
             value: event.target.value,
-            valid: checkValidity(event.target.value, this.state.order[inputIdentifier].validation),
+            valid: checkValidity(event.target.value, this.state.orderForm[inputIdentifier].validation),
             touched: true
         });
 
@@ -143,7 +144,6 @@ class ContactData extends Component {
                 config: this.state.orderForm[key]
             })
         }
-        console.log(formElementsArray);
         let form = (
             <form onSubmit={this.orderHandler}>
                 {formElementsArray.map(formElement => (
@@ -177,7 +177,8 @@ const mapStateToProps = state => {
         ings: state.burger.ingredients,
         price: state.burger.totalPrice,
         loading: state.order.loading,
-        token: state.auth.token
+        token: state.auth.token,
+        userId: state.auth.userId
     }
 }
 

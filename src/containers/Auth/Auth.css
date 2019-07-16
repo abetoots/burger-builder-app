@@ -13,3 +13,7 @@
         width:500px;
     }
 }
+
+.AuthError{
+    color: #FF4200;
+}

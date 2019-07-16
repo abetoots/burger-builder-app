@@ -104,7 +104,17 @@ export class Auth extends Component {
 
         let errorMessage = null;
         if (this.props.error) {
-            errorMessage = (<p>{this.props.error.message}</p>);
+            //Firebase errors currently look like this: EMAIL_EXISTS
+            let str = this.props.error.message;
+            //Lets replace the _ with spaces, then convert to lower case, then split them
+            let strArr = str.replace("_", " ").toLowerCase().split(' ');
+            //Loop over the split string
+            for (let i = 0, n = strArr.length; i < n; i++) {
+                //Capitalize the first letter then concat the rest of the string, assign it as new value at this index
+                strArr[i] = strArr[i].charAt(0).toUpperCase() + strArr[i].slice(1);
+            }
+            //Join the strArr and render as output
+            errorMessage = (<p className="AuthError">{strArr.join(' ')}</p>);
         }
 
         let redirectWhenAuth = null;

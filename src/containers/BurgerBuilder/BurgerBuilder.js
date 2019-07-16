@@ -53,7 +53,7 @@ export class BurgerBuilder extends Component {
     }
 
     orderHandler = () => {
-        if (!this.props.isAuth) {
+        if (!this.props.isAuthenticated) {
             this.props.setCheckoutAsPath();
             this.props.history.push('/auth');
         }
